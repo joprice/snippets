@@ -3,5 +3,6 @@ snippets
 
 Snippets and Notes
 
-angularModule - generates folder with angular + requirejs scaffolding
+angular-module - generates folder with angular + requirejs module scaffolding
+
 
