@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+#
+# Searches log 'file' for values for query param 'query' of format query=value
+#
+
+set -eu
+
+query=$1
+file=$2
+
+grep "$query=" $file | sed 's/.*'$query'=/'$query'=/' | sed 's/^'$query'=\([^ &"]*\).*$/\1/'
+
