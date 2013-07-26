@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -eu
+
+trimresponse() {
+  echo "$1" | tr -d ' '
+}
+
+getprefix() {
+  prefix="$1"
+  read -p "Module name [$prefix]: "
+  res=$(trimresponse ${REPLY:-""})
+  if [[ -z "$res" ]]; then
+    prefix="$prefix"
+  else
+    prefix="$res"
+  fi
+  echo "$prefix"
+}
+
+prefix=$(getprefix "${1:-""}")
+
+if [[ -z "$prefix" ]]; then
+  echo "No prefix"
+else
+  echo "Using $prefix"
+fi 
+
+mkdir -p "$prefix"
+
+component() {
+  type=$1
+  file=$(cat <<JS
+define([\n
+  'angular'\n
+  // import ${type}\n
+], function() {\n
+  var $type = angular.module('$prefix.$type', []);\n
+  // add ${type}s\n
+  return $type;\n
+});\n
+JS
+); 
+  echo "$file"
+}
+
+generate() {
+  type=$1
+  filename="$prefix/$type/${type}.js"
+  mkdir -p "$prefix/$type"
+  echo "Generating $filename"
+  if [ -e "$filename" ]; then
+    read -p "$filename exists already. Overwrite [No] ? "
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then 
+      echo "Contining to next component"
+    else
+      echo "Overwriting $filename"
+      echo -e $(component "$type") > "$filename"
+    fi
+  else
+    echo -e $(component "$type") > "$filename"
+  fi
+}
+
+for type in "controllers" "directives" "services" "filters"; do 
+  generate "$type"
+done
+
