@@ -1,0 +1,2 @@
+git log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+
