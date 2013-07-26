@@ -1,42 +1,49 @@
 #!/usr/bin/env bash
 
+#
+# Generates an angular module with the following folder convention:
+#
+#	module/controllers/controllers.js
+#	module/directives/directives.js
+#	module/services/services.js
+#	module/filters/filters.js
+#
+# Inside each folder is require.js definition that includes the files
+# for each component type
+#
+# To use the module, include the routes and add the module name as a 
+# dependency to your project
+#
+
 set -eu
 
-trimresponse() {
+trim() {
   echo "$1" | tr -d ' '
 }
 
 getprefix() {
-  prefix="$1"
+  prefix="$(trim "$1")"
   read -p "Module name [$prefix]: "
-  res=$(trimresponse ${REPLY:-""})
+  res=$(trim ${REPLY:-""})
   if [[ -z "$res" ]]; then
     prefix="$prefix"
   else
+    echo "not empty $res"
     prefix="$res"
   fi
   echo "$prefix"
 }
-
-prefix=$(getprefix "${1:-""}")
-
-if [[ -z "$prefix" ]]; then
-  echo "No prefix"
-else
-  echo "Using $prefix"
-fi 
-
-mkdir -p "$prefix"
 
 component() {
   type=$1
   file=$(cat <<JS
 define([\n
   'angular'\n
-  // import ${type}\n
+  // import ${type} using relative paths \n
+  // './${type%s}Name'\n
 ], function() {\n
   var $type = angular.module('$prefix.$type', []);\n
-  // add ${type}s\n
+  // add ${type} to module\n
   return $type;\n
 });\n
 JS
@@ -62,7 +69,59 @@ generate() {
   fi
 }
 
+#get module name to use as folder name and prefix for module names 
+prefix=$(getprefix "${1:-""}")
+
+if [[ -z "$prefix" ]]; then
+  echo "A module name is required"
+  exit
+else
+  echo "Using $prefix"
+  # put module in its own subdirectory
+  mkdir -p "$prefix"
+fi 
+
+# generate each component
 for type in "controllers" "directives" "services" "filters"; do 
   generate "$type"
 done
+
+mkdir -p "${prefix}/templates"
+
+routefile="$prefix/routes.js"
+echo "Generating $routefile"
+
+# generate routes file
+echo -e $(cat <<JS
+define([\n
+  './$prefix'\n
+], function($prefix) {\n
+  return $prefix.config(['\$routeProvider', function(\$routeProvider) {\n
+  //routes\n
+  }]);\n
+});\n
+JS
+) > "$routefile"
+
+mainfile="$prefix/$prefix.js"
+
+#generate main module file
+echo -e $(cat <<JS
+define([\n
+  'angular',\n
+  './directives/directives',\n
+  './services/services',\n
+  './filters/filters',\n
+  './controllers/controllers'\n
+], function(angular) {\n
+  return angular.module('skc', [\n
+    '$prefix.services',\n
+    '$prefix.directives',\n
+    '$prefix.controllers',\n
+    '$prefix.filters'\n
+  ])\n
+});\n
+JS
+) > "$mainfile"
+
 
