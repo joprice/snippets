@@ -40,7 +40,7 @@ define([\n
   'angular'\n
   // import ${type} using relative paths \n
   // './${type%s}Name'\n
-], function() {\n
+], function(angular) {\n
   var $type = angular.module('$prefix.$type', []);\n
   // add ${type} to module\n
   return $type;\n
