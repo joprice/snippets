@@ -103,6 +103,7 @@ JS
 ) > "$routefile"
 
 mainfile="$prefix/$prefix.js"
+echo "Generating $mainfile"
 
 #generate main module file
 echo -e $(cat <<JS
@@ -113,7 +114,7 @@ define([\n
   './filters/filters',\n
   './controllers/controllers'\n
 ], function(angular) {\n
-  return angular.module('skc', [\n
+  return angular.module('$prefix', [\n
     '$prefix.services',\n
     '$prefix.directives',\n
     '$prefix.controllers',\n
