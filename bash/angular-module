@@ -28,7 +28,6 @@ getprefix() {
   if [[ -z "$res" ]]; then
     prefix="$prefix"
   else
-    echo "not empty $res"
     prefix="$res"
   fi
   echo "$prefix"
