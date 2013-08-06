@@ -1,0 +1,6 @@
+#!/bin/sh
+exec scala -feature $0 $@
+!#
+
+// above taken from scala repo 
+
