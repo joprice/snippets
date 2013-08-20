@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Add a description with git branch --edit-description
+# and use this script to view them
+# if on path, it can be called as git description (no dash)
+
+for branch in $(git branch | gsed 's/\*//'); do echo -e "$branch \t$(git config $(echo $branch | gsed 's'/\*//';s/ *\([^ ]*\).*/branch.\1.description/'))"; done
+
