@@ -6,6 +6,8 @@ A Clojure library designed to ... well, that part is up to you.
 
 FIXME
 
+http://clojuredocs.org/clojure_core/clojure.core/lazy-seq
+
 ## License
 
 Copyright © 2013 FIXME
