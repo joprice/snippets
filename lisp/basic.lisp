@@ -19,9 +19,12 @@
 (print (funcall (lambda (x y) (list x y y)) :a :b))
 
 ; named arguments - can have default value
-(defun j (&key y (z 5)) (cons y z) '(y z))
-(j :y "a" :z "b")
-(j :y "a")
+; z-p is supplied-p parameter - a boolean signaling when a keyword argument was given
+(defun named (&key y (z 5 z-p)) 
+  (cons y z) '(y z z-p))
+
+(named :y "a" :z "b")
+(named :y "a")
 
 ; reference function itself
 (function +)
@@ -34,6 +37,11 @@
 (apply #'+ 1 2 '(3 4))
 ; returns another list of one-argument function called on each element of supplied list
 (mapcar #'not '(t nil t nil))
+
+(remove-if #'evenp '(1 2 3 4 5 6 7 8 9 10))
+(remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
+
+(delete-duplicates '(1 2 2 2 3 3 4 4))
 
 ; disable an expression with #+nil
 #+nil
@@ -94,8 +102,11 @@
 
 ; define regular variable
 (set 'regular 50)
+; define variable that will be reset when script is reloaded
+(defparameter *b* 50)
 ; define special variable
 (defvar *a* 10)
+
 ; mutate variable
 (setq *a* 20)
 
@@ -168,13 +179,23 @@
 ; named block 
 (block b (return-from b 10) 50)
 
-;equality
-; see http://www.n-a-n-o.com/lisp/cmucl-tutorials/LISP-tutorial-23.html
-;eq
+; numerical equality
+(= 1 1)
+; reference equality
+(eql 'a 'a)
+; value equality
+(equal '(1 2 3) '(1 2 3))
 
-;equal
+; backtick is like quote, but allows a comma to be used to escape quoting
+`(1 2 ,(+ 1 2))
+; use @ to splice list into surrounding list
+`(1 2 ,@(list 3 4) 5)
 
-;eql
+(defvar *map* (make-hash-table :test #'equal))
 
+
+(case 1 (1 "a") (2 "b"))
+; exhaustive case - error if no match
+(ecase 1 (1 "a") (2 "b"))
 
 
