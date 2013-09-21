@@ -139,6 +139,9 @@
   ; wait for change
   (await a)
 
+  ; type hints
+  (defn len [^String x] (.length x))
+
   (let [a [1 2 3]
         b {:a 1 :b 2}
         c (list 1 2 3)]
