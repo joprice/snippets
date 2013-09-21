@@ -97,7 +97,6 @@
 
   ; null
   nil
-
   ; multimethods
   (defmulti encounter (fn [x y] [(:Species x) (:Species y)]))
 
@@ -114,6 +113,31 @@
   ; doseq is used for procedures returning nil
   (doseq [x (for [i (range 10)] (+ i 10))]
     (prn x))
+    
+  ; metadata
+  (def v [1 2 3])
+  (def trusted (with-meta v {:source :trusted}))
+
+  ;;; STM - uses Multiversion Concurrency Control
+
+  ;; refs
+  ; - shared, synchronous, transactional, atomic
+  (def r (ref {:a 1 :b 2 :c 3}))
+  ; deref
+  @r
+  ; read and modify ref - next dereference will have new value
+  (dosync (commute r assoc :c 5))
+
+  ;; agents - shared, asynchronous, autonomoous 
+  ; - can do side effects
+  ; dispatches made during an action are held until after the 
+  ; state of the agent has changed
+  (def a (agent {:a 1 :b 2 :c 3}))
+  @a
+  ; update change asynchronously
+  (send a assoc :d 4)
+  ; wait for change
+  (await a)
 
   (let [a [1 2 3]
         b {:a 1 :b 2}
@@ -123,4 +147,8 @@
           (conj b [:c 3])
           (conj c 4)
           a b c])))
+
+
+
+
 
