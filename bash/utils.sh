@@ -11,3 +11,4 @@ runcmd() {
 trim() {
   echo "$1" | tr -d ' '
 }
+

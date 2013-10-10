@@ -29,3 +29,8 @@ awk -F, 'BEGIN {count=0;total=0;}
 $4 ~/19/ {count++; total=total+$NF}
 END {print "Records from 90s: ",count, "Crimes from the 90s: ",total;}' data
 
+# print all but the last line - sets the buffer and then prints it in the next 
+# iteration, lagging behind by one line
+awk 'NR>1{print buf}{buf = $0}'
+
+
