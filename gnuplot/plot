@@ -1,0 +1,4 @@
+
+# plot file using line number as x value
+plot "file" using (column(0)):1 with linespoints
+
