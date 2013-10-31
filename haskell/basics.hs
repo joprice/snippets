@@ -14,6 +14,9 @@ module Examples
 --   rename import with 'as'; exclude funs with 'hiding'
 import qualified Data.List as M hiding (nub) 
 import Data.Map hiding (map)
+import Data.Char
+import System.IO
+import Control.Monad
 
 data Person = Person String String
 
@@ -110,4 +113,34 @@ map' :: (a -> b) -> [a] -> [b]
 map' _ [] = []
 map' f (x:xs) = f x : map' f xs
 
+-- IO
+
+yell = forever $ do 
+  l <- getLine
+  putStrLn $ map toUpper l
+
+yell' = do 
+  -- getContents is lazy version of getLine
+  l <- getContents
+  putStr $ map toUpper l
+
+-- interact takes a function to map over the provided input
+yell'' = interact $ map toUpper
+
+-- use file instead of standard out
+yell''' file = do 
+  handle <- openFile file ReadMode
+  contents <- hGetContents handle
+  putStr $ map toUpper contents
+  hClose handle
+
+-- simplify using withFile
+yell'''' file = do
+  withFile file ReadMode (\handle -> do
+    contents <- hGetContents handle
+    putStr $ map toUpper contents)
+
+yell''''' file = do
+  contents <- readFile file
+  putStr $ map toUpper contents
 
