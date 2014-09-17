@@ -6,12 +6,33 @@
 #include <mutex>
 #include <future>
 
+// compile with clang++ -lboost_system -lboost_thread-mt -std=c++11 threads.cpp 
+
 // boost provides promise style 'then' continuations
 #define BOOST_THREAD_PROVIDES_FUTURE
 #define BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION
 #include <boost/thread/future.hpp>
 
 using namespace boost;
+
+/**
+ * lifted from http://channel9.msdn.com/Shows/Going+Deep/C-and-Beyond-2012-Herb-Sutter-Concurrency-and-Parallelism
+ **/
+template <class T> class monitor {
+  private:
+    // mutable: can be modified from const function
+    mutable T t;
+    mutable std::mutex m;
+
+  public:
+    monitor(T t_ = T()): t(t_) {}
+
+    template<typename F>
+    auto operator()(F f) const -> decltype(f(t)) {
+      std::lock_guard<mutex>_(m);
+      return f(t);
+    }
+};
 
 void singleThread() {
   std::thread th([]() { 
