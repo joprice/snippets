@@ -1,0 +1,4 @@
+# Modified scalas script that handles arguments properly
+args=($@)
+tail="${args[@]:1}"
+exec java -XX:MaxPermSize=512M -Xmx2G -Dsbt.main.class=sbt.ScriptMain -Dsbt.boot.directory=/Users/joprice12/.sbt/boot -jar /usr/local/Cellar/sbt/0.13.7/libexec/sbt-launch.jar $1 "\"${tail}\""
