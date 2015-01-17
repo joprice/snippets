@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -eu
+
+for branch in $(git branch -r --merged | grep origin | grep -v master); do git push origin ":${branch#origin/}"; done
+
