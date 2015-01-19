@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -eu
+
+exited=$(docker ps -a -q --filter="status=exited")
+if [ -z "$exited" ]; then
+  echo "No containers to remove"
+else
+  docker rm $exited
+fi
+docker images -q --filter "dangling=true" | xargs docker rmi
