@@ -1,0 +1,2 @@
+
+docker images -viz | dot -Tpng -o /tmp/docker.png && open /tmp/docker.png

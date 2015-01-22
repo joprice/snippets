@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -eu
+src=$1
+dest=$2
+
+scp -i ~/.ssh/id_boot2docker "$src" docker@$(boot2docker ip):$dest
+
