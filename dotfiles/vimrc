@@ -1,0 +1,25 @@
+
+syntax enable     " enable syntax processing
+set tabstop=2     " number of visual spaces per TAB
+set softtabstop=2 " number of spaces in tab when editing
+set expandtab     " tabs are spaces
+set number        " show line numbers
+set showcmd       " show command in bottom bar
+set cursorline    " highlight current line
+
+set wildmode=longest,list,full " show autocomplete
+set wildmenu " visual autocomplete for commands
+
+set lazyredraw " redraw only when we necessary 
+
+" searching
+set ignorecase
+set smartcase
+set incsearch " search as characters are typed
+set hlsearch " highlight search matches
+
+set showmatch           " highlight matching braces
+
+
+filetype indent on " load filetype-specific indent files
+
