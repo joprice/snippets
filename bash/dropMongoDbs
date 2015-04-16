@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -eu
+
+dbPrefix=""
+
+js=$(cat <<JS
+var dbs = db.getMongo().getDBNames();
+var i = 0, len = dbs.length, db;
+function dropDb(dbName) {
+db = db.getMongo().getDB(dbName);
+print( "dropping db " + db.getName() );
+db.dropDatabase();
+}
+for (; i < len; i++) {
+var dbName = dbs[i];
+if (!"$dbPrefix" || dbName.indexOf("$dbPrefix") == 0) {
+  dropDb(dbName);
+} 
+}
+JS
+)
+
+mongo localhost:27017 --eval "$js"
+
