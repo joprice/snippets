@@ -11,3 +11,10 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 source ~/.aliases
+
+export SBT_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
+
+source /Users/loaner/.hp_devtools/autocomplete.sh
+
+alias ls='ls -G'
+

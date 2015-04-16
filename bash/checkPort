@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# checks a tcp port for activity
+
+port=$1
+
+netstat -anp tcp | grep $port
+
