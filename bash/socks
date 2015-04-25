@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -eu 
+
+host=$1
+user=$2
+
+ssh -vND 9999 "$user@$host"
+

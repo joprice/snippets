@@ -4,5 +4,8 @@
 
 port=$1
 
+# mact
 netstat -anp tcp | grep $port
 
+# linux
+#sudo netstat -tulpn| grep $port
