@@ -16,13 +16,13 @@ source ~/.aliases
 
 export SBT_OPTS="-Xms512m -Xmx2048m -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
 
-source /Users/loaner/.hp_devtools/autocomplete.sh
-
 alias ls='ls -G'
 
+# assumes bash-completion is installed `brew install git bash-completion`
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
 PS1="\[\033[32m\]\w\[\033[0m\]\$(__git_ps1)\n\[\033[1;36m\]\u\[\033[32m\]$ \[\033[0m\]"
 
+export LESS=-RFX
