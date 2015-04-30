@@ -1,4 +1,3 @@
-
 syntax enable     " enable syntax processing
 set tabstop=2     " number of visual spaces per TAB
 set softtabstop=2 " number of spaces in tab when editing
@@ -20,6 +19,18 @@ set hlsearch " highlight search matches
 
 set showmatch           " highlight matching braces
 
+" assumes vundle was cloned locally with `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+set nocompatible              " required by vundle
+filetype off                  " required by vundle
+set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
+call vundle#begin()
 
-filetype indent on " load filetype-specific indent files
+Plugin 'fatih/vim-go'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 
