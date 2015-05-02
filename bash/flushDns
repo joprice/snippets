@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eu
+
+(which discoveryutil && sudo discoveryutil mdnsflushcache) || sudo killall -HUP mDNSResponder
+
+
