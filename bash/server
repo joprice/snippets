@@ -1,0 +1,9 @@
+#!/usr/bin/env bash 
+
+set -eu
+
+#serves the current directory 
+
+port=${1:-8000}
+
+python -m SimpleHTTPServer $port
