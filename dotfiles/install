@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -eu
+
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# TODO: updateBundle after installing or adding plugins
+
+ln -s `pwd`/bashrc $HOME/.bashrc
+ln -s `pwd`/ackrc $HOME/.ackrc
+ln -s `pwd`/vimrc $HOME/.vimrc
+
