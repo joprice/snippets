@@ -1,3 +1,4 @@
 .RData
 *.class
 a.out
+*.swp

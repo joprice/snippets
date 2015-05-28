@@ -18,6 +18,7 @@ source ~/.aliases
 export SBT_OPTS="-Xms512m -Xmx2048m -XX:ReservedCodeCacheSize=256m -XX:MaxMetaspaceSize=512m"
 
 alias ls='ls -G'
+alias l="ls"
 
 # assumes bash-completion is installed `brew install git bash-completion`
 if [ -f `brew --prefix`/etc/bash_completion ]; then
@@ -36,3 +37,7 @@ export DOCKER_TLS_VERIFY=1
 
 export ANDROID_HOME=/usr/local/opt/android-sdk
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+# run before chrome dev
+#export PATH=$PATH:$HOME/dev/depot_tools
+
