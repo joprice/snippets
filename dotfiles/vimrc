@@ -1,7 +1,62 @@
 syntax enable     " enable syntax processing
+
+function! Preserve(command)
+  let search = @/
+  let cursor_position = getpos('.')
+  normal! H
+  let window_position = getpos('.')
+  call setpos('.', cursor_position)
+
+  execute a:command
+
+  let @/ = search
+  call setpos('.', window_position)
+  normal! zt
+  call setpos('.', cursor_position)
+endfunction
+
+function! Indent()
+  call Preserve('normal gg=G')
+endfunction
+
+autocmd BufWritePre *.c call Indent()
+autocmd BufWritePre *.cpp call Indent()
+
+"autocmd BufWritePre *.c :normal gg=G
+"autocmd BufWritePre *.cpp :normal gg=G
+"autocmd BufWritePre *.scala :normal gg=G
+"
+
+" assumes vundle was cloned locally with `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+set nocompatible              " required by vundle
+filetype off                  " required by vundle
+set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
+call vundle#begin()
+
+Plugin 'fatih/vim-go'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+Plugin 'kien/ctrlp.vim'
+Plugin 'sjl/gundo.vim'
+Plugin 'powerline/powerline'
+Plugin 'majutsushi/tagbar'
+Plugin 'Shougo/neocomplcache'
+Plugin 'derekwyatt/vim-sbt'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'Townk/vim-autoclose'
+Plugin 'scrooloose/nerdtree' 
+Plugin 'gregsexton/gitv'
+
+"Plugin 'ensime/ensime-vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 set tabstop=2     " number of visual spaces per TAB
 set softtabstop=2 " number of spaces in tab when editing
-set shiftwidth=2  " indentation
+set shiftwidth=2
+set autoindent
 set expandtab     " tabs are spaces
 set number        " show line numbers
 set showcmd       " show command in bottom bar
@@ -20,18 +75,29 @@ set hlsearch " highlight search matches
 
 set showmatch           " highlight matching braces
 
-" assumes vundle was cloned locally with `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
-set nocompatible              " required by vundle
-filetype off                  " required by vundle
-set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
-call vundle#begin()
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup    
 
-Plugin 'fatih/vim-go'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+" powerline specific settings
+set t_Co=256
+set term=xterm-256color
+set termencoding=utf-8
+set laststatus=2
+let g:Powerline_symbols = 'fancy'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+let g:neocomplcache_enable_at_startup = 1
 
+" autocomplete popup color
+hi Pmenu ctermbg=8 ctermfg=7
+hi PmenuSel ctermbg=7
+hi PmenuSbar ctermbg=0
+
+"TODO: limit to clj/lisp files
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces
+
+autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
 
