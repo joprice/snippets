@@ -101,3 +101,8 @@ hi PmenuSbar ctermbg=0
 
 autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
 
+" Show all whitespace as unique symbols. Useful for debugging whitespace after
+" copy-paste.
+"set␣listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣¬
+"set␣list¬
+
