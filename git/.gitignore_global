@@ -1,0 +1,6 @@
+
+# vim swap files
+*.sw*
+
+# intellij
+.idea
