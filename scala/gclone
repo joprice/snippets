@@ -1,0 +1,27 @@
+#!/usr/bin/env amm
+
+import $ivy.`org.eclipse.jgit:org.eclipse.jgit:4.5.0.201609210915-r`
+import $ivy.`org.eclipse.jgit:org.eclipse.jgit.archive:4.5.0.201609210915-r`
+import $ivy.`org.slf4j:log4j-over-slf4j:1.7.22`
+import $ivy.`org.slf4j:slf4j-simple:1.7.22`
+
+import ammonite.ops._
+import org.eclipse.jgit.api.Git
+
+@main
+def main(cloneUrl: String) {
+  val Array(_, fullPath) = cloneUrl.split(":", 2)
+  val Array(path) = fullPath.split("\\.git")
+  val target = home / 'dev / RelPath(path)
+  if (!(exists! target)) {
+    println(s"Cloning into $target")
+    mkdir! target
+    Git.cloneRepository()
+      .setURI(cloneUrl)
+      .setDirectory(target.toIO)
+      .call()
+  } else {
+    println("Target already exists")
+    sys.exit(1)
+  }
+}
