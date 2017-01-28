@@ -33,6 +33,7 @@ filetype off                  " required by vundle
 set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 call vundle#begin()
 
+Plugin 'cespare/vim-toml'
 Plugin 'fatih/vim-go'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
@@ -46,6 +47,20 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Townk/vim-autoclose'
 Plugin 'scrooloose/nerdtree' 
 Plugin 'gregsexton/gitv'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'guns/vim-clojure-static'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'rust-lang/rust.vim'
+Plugin 'bitc/vim-hdevtools'
+Plugin 'idris-hackers/idris-vim'
+Plugin 'elzr/vim-json'
+Plugin 'uarun/vim-protobuf'
+Plugin 'keith/swift.vim'
+Plugin 'm-kat/aws-vim.git'
+Plugin 'raichoo/purescript-vim'
+
+"Plugin 'scrooloose/syntastic'
 
 "Plugin 'ensime/ensime-vim'
 
@@ -53,6 +68,7 @@ Plugin 'gregsexton/gitv'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+set autoread
 set tabstop=2     " number of visual spaces per TAB
 set softtabstop=2 " number of spaces in tab when editing
 set shiftwidth=2
@@ -86,7 +102,7 @@ set termencoding=utf-8
 set laststatus=2
 let g:Powerline_symbols = 'fancy'
 
-let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_enable_at_startup = 1
 
 " autocomplete popup color
 hi Pmenu ctermbg=8 ctermfg=7
@@ -101,8 +117,11 @@ hi PmenuSbar ctermbg=0
 
 autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
 
-" Show all whitespace as unique symbols. Useful for debugging whitespace after
-" copy-paste.
 "set␣listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣¬
 "set␣list¬
 
+match ErrorMsg '\%>100v.\+'
+
+let g:vim_markdown_folding_disabled=1
+
+"set mouse=a

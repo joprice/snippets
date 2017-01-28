@@ -1,0 +1,8 @@
+cargo-watch
+cargo-check
+cargo-count
+cargo-graph
+cargo-outdated
+cargo-edit
+cargo-script
+cargo-open
