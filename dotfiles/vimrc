@@ -39,7 +39,6 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
 Plugin 'kien/ctrlp.vim'
 Plugin 'sjl/gundo.vim'
-Plugin 'powerline/powerline'
 Plugin 'majutsushi/tagbar'
 Plugin 'Shougo/neocomplcache'
 Plugin 'derekwyatt/vim-sbt'
@@ -90,17 +89,6 @@ set incsearch " search as characters are typed
 set hlsearch " highlight search matches
 
 set showmatch           " highlight matching braces
-
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup    
-
-" powerline specific settings
-set t_Co=256
-set term=xterm-256color
-set termencoding=utf-8
-set laststatus=2
-let g:Powerline_symbols = 'fancy'
 
 " let g:neocomplcache_enable_at_startup = 1
 
