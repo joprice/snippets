@@ -191,3 +191,8 @@ nnoremap <C-N> :bnext<CR>
 
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
+
+" make exiting insert mode fast
+set timeoutlen=1000 ttimeoutlen=0
+
+
