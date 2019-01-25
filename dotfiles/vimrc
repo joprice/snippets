@@ -1,31 +1,4 @@
-syntax enable     " enable syntax processing
-
-function! Preserve(command)
-  let search = @/
-  let cursor_position = getpos('.')
-  normal! H
-  let window_position = getpos('.')
-  call setpos('.', cursor_position)
-
-  execute a:command
-
-  let @/ = search
-  call setpos('.', window_position)
-  normal! zt
-  call setpos('.', cursor_position)
-endfunction
-
-function! Indent()
-  call Preserve('normal gg=G')
-endfunction
-
-autocmd BufWritePre *.c call Indent()
-autocmd BufWritePre *.cpp call Indent()
-
-"autocmd BufWritePre *.c :normal gg=G
-"autocmd BufWritePre *.cpp :normal gg=G
-"autocmd BufWritePre *.scala :normal gg=G
-"
+syntax on " enable syntax processing
 
 " assumes vundle was cloned locally with `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
 set nocompatible              " required by vundle
@@ -33,6 +6,31 @@ filetype off                  " required by vundle
 set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 call vundle#begin()
 
+Plugin 'airblade/vim-gitgutter'
+Plugin 'ap/vim-buftabline'
+" TODO: try this instead - https://github.com/tomtom/tcomment_vim
+Plugin 'sudar/comments.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" color theme
+Plugin 'dracula/vim'
+" ocaml syntax errors
+Plugin 'w0rp/ale'
+Plugin 'reasonml-editor/vim-reason-plus'
+" autocompleter
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'copy/deoplete-ocaml'
+Plugin 'roxma/vim-hug-neovim-rpc'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'figitaki/vim-dune'
+Plugin 'LnL7/vim-nix'
+Plugin 'rhysd/vim-clang-format'
+Plugin 'cstrahan/vim-capnp'
+Plugin 'google/vim-maktaba'
+Plugin 'bazelbuild/vim-bazel'
+Plugin 'jdonaldson/vaxe'
+Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'cespare/vim-toml'
 Plugin 'fatih/vim-go'
 Plugin 'derekwyatt/vim-scala'
@@ -40,28 +38,23 @@ Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
 Plugin 'kien/ctrlp.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'Shougo/neocomplcache'
+"Plugin 'Shougo/neocomplcache'
 Plugin 'derekwyatt/vim-sbt'
 Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'Townk/vim-autoclose'
-Plugin 'scrooloose/nerdtree' 
 Plugin 'gregsexton/gitv'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'guns/vim-clojure-static'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'rust-lang/rust.vim'
-Plugin 'bitc/vim-hdevtools'
 Plugin 'idris-hackers/idris-vim'
-Plugin 'elzr/vim-json'
 Plugin 'uarun/vim-protobuf'
 Plugin 'keith/swift.vim'
 Plugin 'm-kat/aws-vim.git'
 Plugin 'raichoo/purescript-vim'
-
-"Plugin 'scrooloose/syntastic'
-
-"Plugin 'ensime/ensime-vim'
+Plugin 'r0mai/vim-djinni'
+Plugin 'ElmCast/elm-vim'
+Plugin 'wlangstroth/vim-racket.git'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -76,40 +69,132 @@ set expandtab     " tabs are spaces
 set number        " show line numbers
 set showcmd       " show command in bottom bar
 set cursorline    " highlight current line
-
 set wildmode=longest,list,full " show autocomplete
 set wildmenu " visual autocomplete for commands
+set wildchar=<Tab>
 
-set lazyredraw " redraw only when we necessary 
-
+set lazyredraw " redraw only when we necessary
 " searching
 set ignorecase
 set smartcase
 set incsearch " search as characters are typed
 set hlsearch " highlight search matches
-
 set showmatch           " highlight matching braces
 
-" let g:neocomplcache_enable_at_startup = 1
-
-" autocomplete popup color
-hi Pmenu ctermbg=8 ctermfg=7
-hi PmenuSel ctermbg=7
-hi PmenuSbar ctermbg=0
-
-"TODO: limit to clj/lisp files
-"au VimEnter * RainbowParenthesesToggle
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
+set nowritebackup
+set backspace=2
 
 autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
 
-"set␣listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣¬
-"set␣list¬
+"set listchars=tab:>\ ,trail:¬,extends:>,precedes:<,nbsp:+
+"set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<space:¬
 
 match ErrorMsg '\%>100v.\+'
 
 let g:vim_markdown_folding_disabled=1
 
 "set mouse=a
+
+au BufNewFile,BufRead Podfile,*.podspec      set filetype=ruby"
+au BufRead,BufNewFile dune setf jbuilder
+
+
+let g:python3_host_pro = '/usr/local/bin/python3'
+
+" enable deoplete
+let g:deoplete#enable_at_startup = 1
+" this is the default, make sure it is not set to "omnifunc" somewhere else in your vimrc
+let g:deoplete#complete_method = "complete"
+" other completion sources suggested to disable
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources.ocaml = ['buffer', 'around', 'member', 'tag']
+" no delay before completion
+let g:deoplete#auto_complete_delay = 0
+
+" https://github.com/ocaml/merlin/wiki/vim-from-scratch
+
+if executable('opam')
+  let g:opamshare=substitute(system('opam config var share'),'\n$','','''')
+  if isdirectory(g:opamshare."/merlin/vim")
+    execute "set rtp+=" . g:opamshare."/merlin/vim"
+  endif
+endif
+
+
+color dracula
+set termguicolors
+
+" TODO: fork and add as plugin
+" customized theme here https://github.com/dracula/vim/blob/master/colors/dracula.vim
+" https://github.com/dracula/dracula-theme#color-palette
+hi! link Type DraculaPink
+hi! link Todo DraculaYellow
+" for ocaml, variant constructor application
+hi! link Function DraculaCyan
+"hi! link Statement DraculaYellow
+" for ocaml, let
+hi! link Conditional DraculaCyan
+" equals sign
+hi! link Keyword DraculaPink
+hi! link Search DraculaCyanItalic
+
+" always show gutter
+let g:ale_sign_column_always = 1
+"let g:ale_linters_explicit = 1
+
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'reason': ['refmt'],
+\   'ocaml': ['ocamlformat'],
+\}
+
+" disable annoying popup menu when choosing a completion
+set completeopt-=preview
+set completeopt+=longest,menuone,noinsert
+
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"
+autocmd FileType ocaml nnoremap <buffer> <Leader>l :MerlinLocate<CR>
+autocmd FileType ocaml nnoremap <buffer> <Leader>nn :MerlinRename<Space>
+
+" NOTE:
+" ctrl+p moves backwards
+
+" keep extra lines/columns around cursor to see past while scrolling
+set scrolloff=2
+set sidescrolloff=5
+
+let g:comments_map_keys = 0
+
+" key-mappings for comment line in normal mode
+noremap  <silent> <C-L> :call CommentLine()<CR>
+" key-mappings for range comment lines in visual <Shift-V> mode
+vnoremap <silent> <C-L> :call RangeCommentLine()<CR>
+
+" key-mappings for un-comment line in normal mode
+noremap  <silent> <C-K> :call UnCommentLine()<CR>
+" key-mappings for range un-comment lines in visual <Shift-V> mode
+vnoremap <silent> <C-K> :call RangeUnCommentLine()<CR>
+
+" https://shapeshed.com/vim-netrw/
+let g:netrw_banner = 0
+let g:netrw_browse_split = 0
+"let g:netrw_winsize = 25
+let g:netrw_liststyle = 3
+
+nmap <silent> - :Explore<CR>
+
+" opens netrw when no file is chosen
+" use :bd to close and :Rex to resume
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Explore | endif
+
+"autocmd FileType netrw setl bufhidden=delete
+set hidden
+" switch buffer
+nnoremap <C-N> :bnext<CR>
+
+" update git status on save
+autocmd BufWritePost * GitGutter
