@@ -6,7 +6,6 @@ filetype off                  " required by vundle
 set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 call vundle#begin()
 
-Plugin 'airblade/vim-gitgutter'
 Plugin 'ap/vim-buftabline'
 " TODO: try this instead - https://github.com/tomtom/tcomment_vim
 Plugin 'sudar/comments.vim'
@@ -18,6 +17,9 @@ Plugin 'dracula/vim'
 Plugin 'w0rp/ale'
 Plugin 'reasonml-editor/vim-reason-plus'
 " autocompleter
+Plugin 'udalov/kotlin-vim'
+Plugin 'dln/avro-vim'
+Plugin 'GEverding/vim-hocon'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'roxma/nvim-yarp'
 Plugin 'copy/deoplete-ocaml'
@@ -25,6 +27,9 @@ Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'figitaki/vim-dune'
 Plugin 'LnL7/vim-nix'
+Plugin 'neo4j-contrib/cypher-vim-syntax'
+Plugin 'robbles/logstash.vim'
+Plugin 'hashivim/vim-terraform'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'cstrahan/vim-capnp'
 Plugin 'google/vim-maktaba'
@@ -32,6 +37,8 @@ Plugin 'bazelbuild/vim-bazel'
 Plugin 'jdonaldson/vaxe'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'cespare/vim-toml'
+Plugin 'gre/play2vim'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'fatih/vim-go'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
@@ -42,10 +49,27 @@ Plugin 'majutsushi/tagbar'
 Plugin 'derekwyatt/vim-sbt'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'gregsexton/gitv'
-Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'guns/vim-clojure-static'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'JamshedVesuna/vim-markdown-preview'
+Plugin 'uarun/vim-protobuf'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'idris-hackers/idris-vim.git'
+Plugin 'bitc/vim-hdevtools.git'
+"Plugin 'scrooloose/syntastic'
+Plugin 'vim-scripts/oceandeep'
+Plugin 'easysid/mod8.vim'
+Plugin 'solarnz/thrift.vim'
+Plugin 'vim-scripts/fortran.vim'
+Plugin 'wlangstroth/vim-racket'
+Plugin 'elzr/vim-json'
+Plugin 'm-kat/aws-vim'
+Plugin 'tfnico/vim-gradle'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'raichoo/purescript-vim'
+Plugin 'leafgarland/typescript-vim'
+"Plugin 'ensime/ensime-vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'idris-hackers/idris-vim'
 Plugin 'uarun/vim-protobuf'
@@ -86,8 +110,7 @@ set backspace=2
 
 autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
 
-"set listchars=tab:>\ ,trail:¬,extends:>,precedes:<,nbsp:+
-"set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<space:¬
+set listchars=tab:>\ ,trail:.
 
 match ErrorMsg '\%>100v.\+'
 
