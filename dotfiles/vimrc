@@ -1,80 +1,61 @@
 syntax on " enable syntax processing
 
-" assumes vundle was cloned locally with `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
-set nocompatible              " required by vundle
-filetype off                  " required by vundle
-set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
-call vundle#begin()
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-Plugin 'ap/vim-buftabline'
+call plug#begin('~/.vim/plugged')
+Plug 'ap/vim-buftabline'
 " TODO: try this instead - https://github.com/tomtom/tcomment_vim
-Plugin 'sudar/comments.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'sudar/comments.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " color theme
-Plugin 'dracula/vim'
+Plug 'dracula/vim'
 " ocaml syntax errors
-Plugin 'w0rp/ale'
-Plugin 'reasonml-editor/vim-reason-plus'
+Plug 'w0rp/ale'
+Plug 'reasonml-editor/vim-reason-plus'
 " autocompleter
-Plugin 'udalov/kotlin-vim'
-Plugin 'dln/avro-vim'
-Plugin 'GEverding/vim-hocon'
-Plugin 'Shougo/deoplete.nvim'
-Plugin 'roxma/nvim-yarp'
-Plugin 'copy/deoplete-ocaml'
-Plugin 'roxma/vim-hug-neovim-rpc'
-Plugin 'figitaki/vim-dune'
-Plugin 'LnL7/vim-nix'
-Plugin 'neo4j-contrib/cypher-vim-syntax'
-Plugin 'robbles/logstash.vim'
-Plugin 'hashivim/vim-terraform'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'cstrahan/vim-capnp'
-Plugin 'google/vim-maktaba'
-Plugin 'bazelbuild/vim-bazel'
-Plugin 'jdonaldson/vaxe'
-Plugin 'dart-lang/dart-vim-plugin'
-Plugin 'cespare/vim-toml'
-Plugin 'gre/play2vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
-Plugin 'kien/ctrlp.vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'derekwyatt/vim-sbt'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'gregsexton/gitv'
-Plugin 'guns/vim-clojure-static'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'JamshedVesuna/vim-markdown-preview'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'bitc/vim-hdevtools.git'
-Plugin 'vim-scripts/oceandeep'
-Plugin 'easysid/mod8.vim'
-Plugin 'solarnz/thrift.vim'
-Plugin 'vim-scripts/fortran.vim'
-Plugin 'elzr/vim-json'
-Plugin 'tfnico/vim-gradle'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'idris-hackers/idris-vim'
-Plugin 'uarun/vim-protobuf'
-Plugin 'keith/swift.vim'
-Plugin 'm-kat/aws-vim.git'
-Plugin 'raichoo/purescript-vim'
-Plugin 'r0mai/vim-djinni'
-Plugin 'ElmCast/elm-vim'
-Plugin 'wlangstroth/vim-racket.git'
+Plug 'udalov/kotlin-vim'
+Plug 'dln/avro-vim'
+Plug 'GEverding/vim-hocon'
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'copy/deoplete-ocaml'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'figitaki/vim-dune'
+Plug 'LnL7/vim-nix'
+Plug 'neo4j-contrib/cypher-vim-syntax'
+Plug 'robbles/logstash.vim'
+Plug 'hashivim/vim-terraform'
+Plug 'rhysd/vim-clang-format'
+Plug 'cstrahan/vim-capnp'
+" required by vim-bazel
+Plug 'google/vim-maktaba'
+Plug 'bazelbuild/vim-bazel'
+Plug 'cespare/vim-toml'
+Plug 'gre/play2vim'
+Plug 'fatih/vim-go'
+Plug 'derekwyatt/vim-scala'
+Plug 'derekwyatt/vim-sbt'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'solarnz/thrift.vim'
+Plug 'tfnico/vim-gradle'
+Plug 'leafgarland/typescript-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'idris-hackers/idris-vim'
+Plug 'uarun/vim-protobuf'
+Plug 'keith/swift.vim'
+Plug 'raichoo/purescript-vim'
+Plug 'r0mai/vim-djinni'
+Plug 'ElmCast/elm-vim'
+Plug 'tpope/vim-fugitive'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
 
 set autoread
 set tabstop=2     " number of visual spaces per TAB
@@ -113,11 +94,8 @@ let g:vim_markdown_folding_disabled=1
 au BufNewFile,BufRead Podfile,*.podspec      set filetype=ruby"
 au BufRead,BufNewFile dune setf jbuilder
 
+let g:python3_host_prog = '/usr/local/bin/python3'
 
-let g:python3_host_pro = '/usr/local/bin/python3'
-
-" enable deoplete
-let g:deoplete#enable_at_startup = 1
 " this is the default, make sure it is not set to "omnifunc" somewhere else in your vimrc
 let g:deoplete#complete_method = "complete"
 " other completion sources suggested to disable
@@ -211,5 +189,5 @@ set hidden
 " switch buffer
 nnoremap <C-N> :bnext<CR>
 
-" update git status on save
-autocmd BufWritePost * GitGutter
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
