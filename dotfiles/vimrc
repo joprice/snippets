@@ -189,3 +189,19 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Explore | endif
 
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
+
+let mapleader = ","
+
+" clear current search
+nnoremap <leader><space> :noh<cr>
+
+" use tab to jump between paired brackets
+nnoremap <tab> %
+vnoremap <tab> %
+
+nnoremap ; :
+
+" open .vimrc
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+" open a new copy of this window to the right
+nnoremap <leader>w <C-w>v<C-w>l
