@@ -57,6 +57,9 @@ Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
+" disable vi backwards compatibility
+set nocompatible
+set encoding=utf-8
 set autoread
 set tabstop=2     " number of visual spaces per TAB
 set softtabstop=2 " number of spaces in tab when editing
@@ -69,6 +72,7 @@ set cursorline    " highlight current line
 set wildmode=longest,list,full " show autocomplete
 set wildmenu " visual autocomplete for commands
 set wildchar=<Tab>
+set ttyfast
 
 set lazyredraw " redraw only when we necessary
 " searching
@@ -80,10 +84,21 @@ set showmatch           " highlight matching braces
 
 set nowritebackup
 set backspace=2
-
-autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
-
 set listchars=tab:>\ ,trail:.
+set termguicolors
+
+"autocmd FileType netrw setl bufhidden=delete
+set hidden
+" make exiting insert mode fast
+set timeoutlen=1000 ttimeoutlen=0
+" keep extra lines/columns around cursor to see past while scrolling
+set scrolloff=2
+set sidescrolloff=5
+
+" disable annoying popup menu when choosing a completion
+set completeopt-=preview
+set completeopt+=longest,menuone,noinsert
+
 
 match ErrorMsg '\%>100v.\+'
 
@@ -113,9 +128,7 @@ if executable('opam')
   endif
 endif
 
-
 color dracula
-set termguicolors
 
 " TODO: fork and add as plugin
 " customized theme here https://github.com/dracula/vim/blob/master/colors/dracula.vim
@@ -142,57 +155,37 @@ let g:ale_fixers = {
 \   'ocaml': ['ocamlformat'],
 \}
 
-" disable annoying popup menu when choosing a completion
-set completeopt-=preview
-set completeopt+=longest,menuone,noinsert
-
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-"
-autocmd FileType ocaml nnoremap <buffer> <Leader>l :MerlinLocate<CR>
-autocmd FileType ocaml nnoremap <buffer> <Leader>nn :MerlinRename<Space>
-
-" NOTE:
-" ctrl+p moves backwards
-
-" keep extra lines/columns around cursor to see past while scrolling
-set scrolloff=2
-set sidescrolloff=5
-
-let g:comments_map_keys = 0
-
-" key-mappings for comment line in normal mode
-noremap  <silent> <C-L> :call CommentLine()<CR>
-" key-mappings for range comment lines in visual <Shift-V> mode
-vnoremap <silent> <C-L> :call RangeCommentLine()<CR>
-
-" key-mappings for un-comment line in normal mode
-noremap  <silent> <C-K> :call UnCommentLine()<CR>
-" key-mappings for range un-comment lines in visual <Shift-V> mode
-vnoremap <silent> <C-K> :call RangeUnCommentLine()<CR>
-
 " https://shapeshed.com/vim-netrw/
 let g:netrw_banner = 0
 let g:netrw_browse_split = 0
 "let g:netrw_winsize = 25
 let g:netrw_liststyle = 3
 
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let g:comments_map_keys = 0
+" key-mappings for comment line in normal mode
+noremap  <silent> <C-L> :call CommentLine()<CR>
+" key-mappings for range comment lines in visual <Shift-V> mode
+vnoremap <silent> <C-L> :call RangeCommentLine()<CR>
+" key-mappings for un-comment line in normal mode
+noremap  <silent> <C-K> :call UnCommentLine()<CR>
+" key-mappings for range un-comment lines in visual <Shift-V> mode
+vnoremap <silent> <C-K> :call RangeUnCommentLine()<CR>
+
+" switch buffer
+nnoremap <C-N> :bnext<CR>
+
 nmap <silent> - :Explore<CR>
+
+autocmd FileType c,cpp,java,scala autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType ocaml nnoremap <buffer> <Leader>l :MerlinLocate<CR>
+autocmd FileType ocaml nnoremap <buffer> <Leader>nn :MerlinRename<Space>
 
 " opens netrw when no file is chosen
 " use :bd to close and :Rex to resume
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Explore | endif
 
-"autocmd FileType netrw setl bufhidden=delete
-set hidden
-" switch buffer
-nnoremap <C-N> :bnext<CR>
-
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
-
-" make exiting insert mode fast
-set timeoutlen=1000 ttimeoutlen=0
-
-
