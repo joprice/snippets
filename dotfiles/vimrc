@@ -16,7 +16,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim'
 " ocaml syntax errors
 Plug 'w0rp/ale'
-Plug 'reasonml-editor/vim-reason-plus'
+"Plug 'vim-syntastic/syntastic'
+"Plug 'reasonml-editor/vim-reason-plus'
+Plug 'jordwalke/vim-reasonml'
 " autocompleter
 Plug 'udalov/kotlin-vim'
 Plug 'dln/avro-vim'
@@ -97,7 +99,8 @@ set sidescrolloff=5
 
 " disable annoying popup menu when choosing a completion
 set completeopt-=preview
-set completeopt+=longest,menuone,noinsert
+set completeopt+=longest,menuone
+",noinsert
 
 
 match ErrorMsg '\%>100v.\+'
@@ -153,6 +156,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'reason': ['refmt'],
 \   'ocaml': ['ocamlformat'],
+\   'xml': ['xmllint'],
 \}
 
 " https://shapeshed.com/vim-netrw/
@@ -160,6 +164,7 @@ let g:netrw_banner = 0
 let g:netrw_browse_split = 0
 "let g:netrw_winsize = 25
 let g:netrw_liststyle = 3
+let g:netrw_sort_direction = 'normal'
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -191,6 +196,7 @@ let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
 
 let mapleader = ","
+let no_ocaml_maps=1
 
 " clear current search
 nnoremap <leader><space> :noh<cr>
@@ -205,3 +211,13 @@ nnoremap ; :
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " open a new copy of this window to the right
 nnoremap <leader>w <C-w>v<C-w>l
+
+let g:airline_extensions = ['esy', 'reason']
+let g:reasonml_project_airline=1
+let g:reasonml_clean_project_airline=1
+let g:airline#extensions#whitespace#enabled = 0
+"let g:airline_powerline_fonts = 1
+let g:airline_skip_empty_sections = 1
+
+"let g:reasonml_syntastic_airline=1
+"let g:syntastic_always_populate_loc_list = 1
