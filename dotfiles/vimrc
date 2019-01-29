@@ -56,7 +56,7 @@ Plug 'raichoo/purescript-vim'
 Plug 'r0mai/vim-djinni'
 Plug 'ElmCast/elm-vim'
 Plug 'tpope/vim-fugitive'
-
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 " disable vi backwards compatibility
@@ -180,6 +180,7 @@ vnoremap <silent> <C-K> :call RangeUnCommentLine()<CR>
 
 " switch buffer
 nnoremap <C-N> :bnext<CR>
+nnoremap <C-M> :bprevious<CR>
 
 nmap <silent> - :Explore<CR>
 
@@ -221,3 +222,4 @@ let g:airline_skip_empty_sections = 1
 
 "let g:reasonml_syntastic_airline=1
 "let g:syntastic_always_populate_loc_list = 1
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
